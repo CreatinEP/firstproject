@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     float moveSpeed = 10;
     [SerializeField]
@@ -12,6 +12,8 @@ public class CubeMovement : MonoBehaviour
     public LayerMask groundLayers;
     public float jumpForce = 10;
     public SphereCollider col;
+
+    public Gun myGun;
 
 
     void Start()
@@ -27,11 +29,19 @@ public class CubeMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
+
+        //
+        Vector3 position = this.transform.position;
+        position.z += 0.04f;
+        this.transform.position = position;
+        //
+
+        //float horizontalInput = Input.GetAxis("Horizontal");
 
         float verticalInput = Input.GetAxis("Vertical");
 
-        transform.Translate(new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime);
+        //transform.Translate(new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime);
+        transform.Translate(new Vector3(0, 0, verticalInput) * moveSpeed * Time.deltaTime);
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -8, 8), transform.position.y, transform.position.z);
 
@@ -60,6 +70,8 @@ public class CubeMovement : MonoBehaviour
             Material mat = other.GetComponent<MeshRenderer>().material;
             mat2.color = mat.color;
             meshRenderer.material = mat2;
+            myGun.GetComponent<MeshRenderer>().material = mat2;
+
             Destroy(other.gameObject);
 
         }
