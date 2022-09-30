@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace osuruk
+{
+
+}
+
 public class PlayerMovement : MonoBehaviour
 {
     float moveSpeed = 10;
@@ -32,23 +37,28 @@ public class PlayerMovement : MonoBehaviour
 
         //
         Vector3 position = this.transform.position;
-        position.z += 0.04f;
+        position.z += 0.05f;
         this.transform.position = position;
         //
 
-        //float horizontalInput = Input.GetAxis("Horizontal");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        float verticalInput = Input.GetAxis("Vertical");
+        //float verticalInput = Input.GetAxis("Vertical");
 
         //transform.Translate(new Vector3(horizontalInput, 0, verticalInput) * moveSpeed * Time.deltaTime);
-        transform.Translate(new Vector3(0, 0, verticalInput) * moveSpeed * Time.deltaTime);
+        transform.Translate(new Vector3(horizontalInput, 0, 0) * moveSpeed * Time.deltaTime);
+
+        // etkileþime girilen objeye fizik uygulamak için
+        //rb.position = Vector3.MoveTowards(rb.position, target, hýz);
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -8, 8), transform.position.y, transform.position.z);
 
 
+
+
         if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce);
          
         }
 
